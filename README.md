@@ -1,1 +1,1 @@
-# ODIN---Binary-Search-Trees
+# ODIN Binary Search Trees
