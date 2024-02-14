@@ -24,6 +24,29 @@ class BST {
 
     return rootNode;
   }
+
+  #insertRecursion(root, value) {
+    if (root === null) {
+      root = Node(value);
+      return root;
+    }
+
+    if (value < root.value) {
+      root.left = this.#insertRecursion(root.left, value);
+    }
+
+    if (value > root.value) {
+      root.right = this.#insertRecursion(root.right, value);
+    }
+
+    return root;
+  }
+
+  insert(value) {
+    this.root = this.#insertRecursion(this.root, value);
+  }
+
+  delete(value) {}
 }
 
 module.exports = BST;
