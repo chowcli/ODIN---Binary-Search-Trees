@@ -131,7 +131,7 @@ class BST {
     return null;
   }
 
-  levelOrder(cb = null) {
+  #levelOrderIteration(cb = null) {
     let queue = [this.root];
     let temp = this.root;
     const array = [];
@@ -141,8 +141,8 @@ class BST {
         cb(temp);
       }
 
-      if (temp.left !== null) queue.push(temp.left);
-      if (temp.right !== null) queue.push(temp.right);
+      if (temp.left) queue.push(temp.left);
+      if (temp.right) queue.push(temp.right);
 
       array.push(queue.shift().value);
 
@@ -150,6 +150,11 @@ class BST {
     }
 
     return array;
+  }
+
+  levelOrder(cb = null) {
+    // 1st method
+    return this.#levelOrderIteration(cb);
   }
 }
 
