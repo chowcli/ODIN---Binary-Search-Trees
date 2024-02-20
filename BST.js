@@ -156,6 +156,112 @@ class BST {
     // 1st method
     return this.#levelOrderIteration(cb);
   }
+
+  // left root right
+  inOrder(cb = null) {
+    const result = [];
+
+    function recursion(node) {
+      if (!node) return;
+
+      recursion(node.left);
+
+      if (cb) {
+        cb(node);
+      }
+
+      result.push(node.value);
+      recursion(node.right);
+    }
+
+    recursion(this.root);
+
+    return result;
+  }
+
+  // root left right
+  preOrder(cb = null) {
+    const result = [];
+
+    function recursion(node) {
+      if (node) {
+        if (cb) {
+          cb(node);
+        }
+
+        result.push(node.value);
+        recursion(node.left);
+        recursion(node.right);
+      }
+    }
+    recursion(this.root);
+
+    return result;
+  }
+
+  // left right root
+  postOrder(cb = null) {
+    const result = [];
+
+    function recursion(node) {
+      if (node) {
+        recursion(node.left);
+        recursion(node.right);
+
+        if (cb) cb(node);
+
+        result.push(node.value);
+      }
+    }
+
+    recursion(this.root);
+
+    return result;
+  }
+
+  height(node) {
+    if (!node) return -1;
+
+    let heightLeft = this.height(node.left);
+    let heightRight = this.height(node.right);
+
+    return Math.max(heightLeft, heightRight) + 1;
+  }
+
+  depth(node) {
+    if (node === null) return 0;
+
+    const leftDepth = this.depth(node.left);
+    const rightDepth = this.depth(node.right);
+
+    return Math.max(leftDepth, rightDepth) + 1;
+  }
+
+  #checkBalanced(root) {
+    if (!root) return true;
+
+    const leftDepth = this.depth(root.left);
+    const rightDepth = this.depth(root.right);
+
+    const heightDiff = Math.abs(leftDepth - rightDepth);
+    if (heightDiff > 1) {
+      return false;
+    }
+
+    return this.#checkBalanced(root.left) && this.#checkBalanced(root.right);
+  }
+
+  isBalanced() {
+    if (!this.root) return true;
+
+    return this.#checkBalanced(this.root);
+  }
+
+  rebalance() {
+    const treeArr = this.levelOrder();
+
+    this.root = this.buildTree(treeArr);
+  }
 }
 
 module.exports = BST;
